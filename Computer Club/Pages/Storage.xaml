@@ -1,0 +1,290 @@
+﻿<Page x:Class="Computer_Club.Pages.Storage"
+      xmlns="http://schemas.microsoft.com/winfx/2006/xaml/presentation"
+      xmlns:x="http://schemas.microsoft.com/winfx/2006/xaml"
+      xmlns:mc="http://schemas.openxmlformats.org/markup-compatibility/2006" 
+      xmlns:d="http://schemas.microsoft.com/expression/blend/2008" 
+      xmlns:fa="http://schemas.awesome.incremented/wpf/xaml/fontawesome.sharp"
+      xmlns:local="clr-namespace:Computer_Club.Pages"
+      mc:Ignorable="d" 
+      d:DesignHeight="738" d:DesignWidth="943"
+      Title="Storage">
+
+    <Grid>
+        <Grid.RowDefinitions>
+            <RowDefinition Height="146*"/>
+            <RowDefinition Height="449*"/>
+            <RowDefinition Height="143*"/>
+        </Grid.RowDefinitions>
+        <Grid.ColumnDefinitions>
+            <ColumnDefinition Width="252*"/>
+            <ColumnDefinition Width="441*"/>
+            <ColumnDefinition Width="250*"/>
+        </Grid.ColumnDefinitions>
+
+        <Image Source="/Images/Box.png" Grid.ColumnSpan="3" Grid.RowSpan="3"/>
+        <Image Width="70" Height="70" HorizontalAlignment="Right" VerticalAlignment="Top" Margin="0,76,-35,0" Source="/Images/AddBox.png" Grid.Column="2" MouseLeftButtonUp="Image_MouseLeftButtonUp">
+            <Image.Style>
+                <Style TargetType="Image">
+                    <Style.Triggers>
+                        <Trigger Property="IsMouseOver" Value="True">
+                            <Trigger.EnterActions>
+                                <BeginStoryboard>
+                                    <Storyboard>
+                                        <DoubleAnimation Storyboard.TargetProperty="(FrameworkElement.RenderTransform).(TranslateTransform.X)"
+                                                     From="0" To="-30" Duration="0:0:0.3" />
+                                    </Storyboard>
+                                </BeginStoryboard>
+                            </Trigger.EnterActions>
+                            <Trigger.ExitActions>
+                                <BeginStoryboard>
+                                    <Storyboard>
+                                        <DoubleAnimation Storyboard.TargetProperty="(FrameworkElement.RenderTransform).(TranslateTransform.X)"
+                                                     From="-30" To="0" Duration="0:0:0.3" />
+                                    </Storyboard>
+                                </BeginStoryboard>
+                            </Trigger.ExitActions>
+                        </Trigger>
+                    </Style.Triggers>
+
+                </Style>
+            </Image.Style>
+            <Image.RenderTransform>
+                <TranslateTransform X="0" Y="0"/>
+            </Image.RenderTransform>
+        </Image>
+        <Grid x:Name="grid" Margin="0,0,-35,290" Grid.Column="2" VerticalAlignment="Bottom" HorizontalAlignment="Right" Height="133" Width="196" Grid.Row="1">
+            <Grid.RenderTransform>
+                <TranslateTransform X="0" Y="0" />
+            </Grid.RenderTransform>
+            <Image Width="70" Height="70" HorizontalAlignment="Right" VerticalAlignment="Top" Source="/Images/Loupe.png"
+           MouseEnter="Image_MouseEnter" MouseLeave="Image_MouseLeave" MouseLeftButtonUp="SearchClick" />
+            <ComboBox x:Name="SearchCombo" VerticalAlignment="Top" Height="22" Width="196" Margin="0,75,0,0" Visibility="Hidden" >
+                <ComboBoxItem Content="Название"/>
+                <ComboBoxItem Content="Тип"/>
+                <ComboBoxItem Content="Качество"/>
+            </ComboBox>
+            <TextBox x:Name="SeachText" VerticalAlignment="Top" Width="196" Margin="0,111,0,0" Height="22" Visibility="Hidden" TextChanged="SeachText_TextChanged" />
+        </Grid>
+
+        <DataGrid x:Name="Data" Loaded="Data_Loaded" RowHeight="40" GridLinesVisibility="None" MaxWidth="480" IsReadOnly="True" Grid.Row="1" Grid.Column="1" >
+            <DataGrid.BorderBrush>
+                <SolidColorBrush Color="Black" Opacity="0"/>
+            </DataGrid.BorderBrush>
+            <DataGrid.Background>
+                <SolidColorBrush Color="#FF830A93" Opacity="0"/>
+            </DataGrid.Background>
+            <DataGrid.ColumnHeaderStyle>
+                <Style TargetType="DataGridColumnHeader">
+                    <Setter Property="Template">
+                        <Setter.Value>
+                            <ControlTemplate TargetType="DataGridColumnHeader">
+                                <!--Header color and radius-->
+                                <Border Background="HotPink" 
+                                    CornerRadius="10">
+                                    <ContentPresenter VerticalAlignment="Center"
+                                              HorizontalAlignment="Left"/>
+                                </Border>
+                            </ControlTemplate>
+                        </Setter.Value>
+                    </Setter>
+                    <!--Setting for Header-->
+                    <Setter Property="Height" Value="40"/>
+                    <Setter Property="Foreground" Value="Black"/>
+                    <Setter Property="FontSize" Value="14"/>
+                    <Setter Property="FontWeight" Value="Bold"/>
+                    <Setter Property="Padding" Value="5"/>
+                </Style>
+            </DataGrid.ColumnHeaderStyle>
+            <DataGrid.CellStyle>
+                <Style TargetType="{x:Type DataGridCell}">
+                    <Setter Property="Background" Value="Transparent"/>
+                    <Setter Property="BorderThickness" Value="0"/>
+                </Style>
+            </DataGrid.CellStyle>
+            <DataGrid.RowStyle>
+                <Style TargetType="DataGridRow">
+                    <Style.Triggers>
+                        <Trigger Property="IsMouseOver" Value="True">
+                            <Setter Property="Background" Value="#623ED0"/>
+                            <Setter Property="Foreground" Value="#ffffff"/>
+                        </Trigger>
+                        <Trigger Property="IsSelected" Value="True">
+                            <Setter Property="Background" Value="#623ED0"/>
+                            <Setter Property="Foreground" Value="#ffffff"/>
+                        </Trigger>
+                        <MultiTrigger>
+                            <MultiTrigger.Conditions>
+                                <Condition Property="IsSelected" Value="true"/>
+                                <Condition Property="Selector.IsSelectionActive" Value="false"/>
+                            </MultiTrigger.Conditions>
+                            <Setter Property="Background" Value="#dfdfdf"/>
+                        </MultiTrigger>
+                    </Style.Triggers>
+                    <Setter Property="Template">
+                        <Setter.Value>
+                            <ControlTemplate TargetType="DataGridRow">
+                                <!--Row color and radius-->
+                                <Border x:Name="DGR_Border" Padding="0 8" CornerRadius="10" Background="{TemplateBinding Background}" BorderThickness="0" SnapsToDevicePixels="True">
+                                    <SelectiveScrollingGrid>
+                                        <SelectiveScrollingGrid.ColumnDefinitions>
+                                            <ColumnDefinition Width="Auto"/>
+                                            <ColumnDefinition Width="*"/>
+                                        </SelectiveScrollingGrid.ColumnDefinitions>
+                                        <SelectiveScrollingGrid.RowDefinitions>
+                                            <RowDefinition Height="*"/>
+                                            <RowDefinition Height="Auto"/>
+                                        </SelectiveScrollingGrid.RowDefinitions>
+
+                                        <DataGridCellsPresenter Grid.Column="1"
+                                                        ItemsPanel="{TemplateBinding ItemsPanel}"
+                                                        SnapsToDevicePixels="{TemplateBinding SnapsToDevicePixels}"/>
+                                        <DataGridDetailsPresenter Grid.Column="1"
+                                                            Grid.Row="1"
+                                                            Visibility="{TemplateBinding DetailsVisibility}"
+                                                            SelectiveScrollingGrid.SelectiveScrollingOrientation="{Binding AreRowDetailsFrozen, ConverterParameter={x:Static SelectiveScrollingOrientation.Vertical}, Converter={x:Static DataGrid.RowDetailsScrollingConverter}, RelativeSource={RelativeSource AncestorType={x:Type DataGrid}}}"
+                                                            />
+                                    </SelectiveScrollingGrid>
+                                </Border>
+                            </ControlTemplate>
+                        </Setter.Value>
+                    </Setter>
+                </Style>
+            </DataGrid.RowStyle>
+            <DataGrid.Columns>
+                <DataGridTextColumn Width="20"/>
+                <DataGridTextColumn Header="ID" Binding="{Binding Path=Id}" Width="40" />
+                <DataGridTextColumn  Header="Название" Binding="{Binding Path = productName}"  Width="*" TextBlock.TextAlignment="Center"/>
+                <DataGridTextColumn Header="Тип" Binding="{Binding Path=productType}" Width="*" TextBlock.TextAlignment="Center"/>
+                <DataGridTextColumn Header="Качество" Binding="{Binding Path=quantity}" Width="*" TextBlock.TextAlignment="Center"/>
+                <DataGridTemplateColumn Width="50">
+                    <DataGridTemplateColumn.CellTemplate>
+                        <DataTemplate>
+                            <StackPanel Orientation="Horizontal" Margin="0,0,0,19" >
+                                <Image Source="/Images/Viol.png" Width="20" Height="20" Margin="0,0,5,0" MouseLeftButtonUp="UpdateRow" MouseLeftButtonDown="Image_MouseLeftButtonDown"/>
+                                <Image Source="/Images/Red.png" Width="20" Height="20" MouseLeftButtonUp="DeleteRow" MouseLeftButtonDown="Image_MouseLeftButtonDown_1"/>
+                            </StackPanel>
+                        </DataTemplate>
+                    </DataGridTemplateColumn.CellTemplate>
+                    <DataGridTemplateColumn.CellEditingTemplateSelector>
+                        <DataTemplateSelector>
+                        </DataTemplateSelector>
+                    </DataGridTemplateColumn.CellEditingTemplateSelector>
+                </DataGridTemplateColumn>
+                <DataGridTextColumn Width="20" TextBlock.TextAlignment="Center"/>
+            </DataGrid.Columns>
+        </DataGrid>
+
+        <Grid x:Name="Adding" Grid.Column="1" Visibility="Hidden" MaxWidth="480" Grid.Row="1">
+            <Rectangle Stroke="Black" OpacityMask="Red" Margin="-2,0,0,0" RadiusX="20" RadiusY="20">
+                <Rectangle.Fill>
+                    <RadialGradientBrush>
+                        <GradientStop Color="#FF8303BA" Offset="0"/>
+                        <GradientStop Color="#FF3303A1" Offset="1"/>
+                    </RadialGradientBrush>
+                </Rectangle.Fill>
+            </Rectangle>
+            <Button x:Name="btnClose"
+                    Style="{StaticResource controlButton}"
+                    Tag="{StaticResource color4}"
+                    Height="32" Width="32" Foreground="#FF0C15ED" VerticalAlignment="Top" HorizontalAlignment="Right" Click="btnClose_Click">
+                <fa:IconImage Icon="Xmark" Style="{StaticResource controlButtonIcon}"/>
+            </Button>
+            <TextBlock Text="Добавление комплектующего"
+                               x:Name="Header"
+                               Foreground="DarkGray"
+                               FontSize="18"
+                               FontFamily="Montserrat"
+                               FontWeight="Medium"
+                               Grid.Column="0"
+                               VerticalAlignment="Top"
+                               Margin="20,0,0,0" HorizontalAlignment="Left"/>
+            <StackPanel HorizontalAlignment="Center" VerticalAlignment="Center" Width="150" Margin="200,100,0,0">
+                <TextBlock Text="Качество"
+                               Foreground="DarkGray"
+                               FontSize="10"
+                               FontFamily="Montserrat"
+                               FontWeight="Medium"
+                               Grid.Column="0"
+                               VerticalAlignment="Top"/>
+                <ComboBox x:Name="itenQuantity">
+                    <ComboBoxItem Content="Ужасный"/>
+                    <ComboBoxItem Content="Плохой"/>
+                    <ComboBoxItem Content="Нормальный"/>
+                    <ComboBoxItem Content="Хороший"/>
+                    <ComboBoxItem Content="Отличный"/>
+
+                </ComboBox>
+            </StackPanel>
+            <StackPanel HorizontalAlignment="Center" VerticalAlignment="Center" Margin="0,100,200,0" Width="150">
+                <TextBlock Text="Тип комплектующего"
+                               Foreground="DarkGray"
+                               FontSize="10"
+                               FontFamily="Montserrat"
+                               FontWeight="Medium"
+                               Grid.Column="0"
+                               VerticalAlignment="Top"/>
+                <ComboBox x:Name="itemType">
+                    <ComboBoxItem Content="Монитор"/>
+                    <ComboBoxItem Content="Материнская плата"/>
+                    <ComboBoxItem Content="Видеокарта"/>
+                    <ComboBoxItem Content="Процессор"/>
+                    <ComboBoxItem Content="Куллер"/>
+                    <ComboBoxItem Content="Клавиатера"/>
+                    <ComboBoxItem Content="Мышь"/>
+                    <ComboBoxItem Content="Наушники"/>
+                    <ComboBoxItem Content="Периферия"/>
+                    <ComboBoxItem Content="Другое"/>
+                </ComboBox>
+            </StackPanel>
+            <StackPanel HorizontalAlignment="Center" VerticalAlignment="Center" Margin="0,0,0,100" Width="150">
+                <TextBlock Text="Название"
+                               Foreground="DarkGray"
+                               FontSize="10"
+                               FontFamily="Montserrat"
+                               FontWeight="Medium"
+                               Grid.Column="0"
+                               VerticalAlignment="Top"/>
+                <TextBox x:Name="itemName"/>
+            </StackPanel>            
+            <TextBlock x:Name="Error"
+                               Foreground="Red"
+                               FontSize="14"
+                               FontFamily="Montserrat"
+                               FontWeight="Medium"
+                               Grid.Column="0"
+                               VerticalAlignment="Bottom" HorizontalAlignment="Center" Margin="0,0,0,93"/>
+            <Button x:Name="btnLogin"                          
+                            BorderThickness="0"
+                            Content="Добавить"
+                            Foreground="White"
+                            FontSize="13"
+                            FontFamily="Montserrat"
+                            Cursor="Hand"                           
+                            Margin="0,0,0,37"
+                            Click="AddItem_Click" HorizontalAlignment="Center" VerticalAlignment="Bottom">
+
+                <Button.Style>
+                    <Style TargetType="{x:Type Button}">
+                        <Setter Property="Background" Value="#462AD8"/>
+                        <Style.Triggers>
+                            <Trigger Property="IsMouseOver" Value="True">
+                                <Setter Property="Background" Value="#28AEED"/>
+                            </Trigger>
+                        </Style.Triggers>
+                    </Style>
+                </Button.Style>
+
+                <Button.Template>
+                    <ControlTemplate TargetType="{x:Type Button}">
+                        <Border Width="150" Height="40"
+                                        CornerRadius="20"
+                                        Background="{TemplateBinding Background}">
+                            <ContentPresenter VerticalAlignment="Center"
+                                                      HorizontalAlignment="Center"/>
+                        </Border>
+                    </ControlTemplate>
+                </Button.Template>
+            </Button>
+        </Grid>
+    </Grid>
+</Page>

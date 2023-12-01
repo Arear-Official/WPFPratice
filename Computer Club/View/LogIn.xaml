@@ -1,0 +1,225 @@
+﻿<!-- Настройки окна -->
+<Window x:Class="Computer_Club.View.LogIn"
+        xmlns="http://schemas.microsoft.com/winfx/2006/xaml/presentation"
+        xmlns:x="http://schemas.microsoft.com/winfx/2006/xaml"
+        xmlns:d="http://schemas.microsoft.com/expression/blend/2008"
+        xmlns:mc="http://schemas.openxmlformats.org/markup-compatibility/2006"
+        xmlns:local="clr-namespace:Computer_Club.View"
+        xmlns:fa="http://schemas.awesome.incremented/wpf/xaml/fontawesome.sharp"
+        mc:Ignorable="d"
+        Title="LogIn" Height="550" Width="800"
+        WindowStyle="None"
+        ResizeMode="NoResize"
+        WindowStartupLocation="CenterScreen"
+        Background="Transparent"
+        AllowsTransparency="True"
+        MouseDown="Window_MouseDown" Closing="MainForm_FormClosing" Closed="Window_Closed" Loaded="Window_Loaded">
+
+    <Border CornerRadius="12">
+
+        <Border CornerRadius="10"                    
+            BorderThickness="2"
+            Opacity="1">
+            <!-- Настройка градиента Border окна -->
+            <Border.BorderBrush>
+                <LinearGradientBrush StartPoint="0,0" EndPoint="1,1">
+                    <GradientStop Color="#462AD8" Offset="0"/>
+                    <GradientStop Color="#DA34AE" Offset="0.75"/>
+                    <GradientStop Color="#8A16C1" Offset="1"/>
+                </LinearGradientBrush>
+            </Border.BorderBrush>
+
+            <Border.Background>
+                <LinearGradientBrush StartPoint="0,1" EndPoint="1,0">
+                    <GradientStop Color="#060531" Offset="0"/>
+                    <GradientStop Color="#1B1448" Offset="1"/>
+                </LinearGradientBrush>
+            </Border.Background>
+            <!-- Разметка(таблица) верхней части -->
+            <Grid>
+                <Grid.RowDefinitions>
+                    <RowDefinition Height="30"/>
+                    <RowDefinition/>
+                </Grid.RowDefinitions>
+
+                <Grid Grid.Row="0">
+                    <!-- Создание колонок -->
+                    <Grid.ColumnDefinitions>
+                        <ColumnDefinition/>
+                        <ColumnDefinition Width="35"/>
+                        <ColumnDefinition Width="35"/>
+                        <ColumnDefinition Width="35"/>
+                        <ColumnDefinition Width="5"/>
+                    </Grid.ColumnDefinitions>
+                    <!-- Надпись в левом верхнем углу -->
+                    <TextBlock Text="Вход в систему"
+                               Foreground="DarkGray"
+                               FontSize="13"
+                               FontFamily="Montserrat"
+                               FontWeight="Medium"
+                               Grid.Column="0"
+                               VerticalAlignment="Center"
+                               Margin="10,0,0,0"/>
+
+                    <!-- Создание кнопки сворачивания в первой колонке -->
+                  
+                    <Button x:Name="btnClose"
+                                Style="{StaticResource controlButton}"
+                                Tag="{StaticResource color4}"
+                                Click="btnClose_Click"
+                                Grid.Column="3">
+                        <fa:IconImage Icon="Xmark" Style="{StaticResource controlButtonIcon}"/>
+                    </Button>
+
+                    <Button x:Name="btnMaximize"
+                                Style="{StaticResource controlButton}"
+                                Tag="{StaticResource color6}"
+                                Click="btnMaximize_Click"
+                                Grid.Column="2">
+                        <fa:IconImage Icon="Square" Style="{StaticResource controlButtonIcon}"/>
+                    </Button>
+                    <Button x:Name="btnMinimize"
+                                Style="{StaticResource controlButton}"
+                                Tag="{StaticResource color8}"
+                                Click="btnMinimize_Click"
+                                Grid.Column="1">
+                        <fa:IconImage Icon="WindowMinimize" Width="12" Style="{StaticResource controlButtonIcon}"/>
+                    </Button>
+
+
+                </Grid>
+
+                <!-- Создание панели для основного хранения контента -->
+                <StackPanel Width="250"
+                            Grid.Row="1"
+                            Orientation="Vertical"
+                            Margin="0,35,0,0">
+
+                    <!-- Инициализация изображения "Лого" -->
+                    <Image Source="/Images/Logo.png"
+                           Height="100" Width="100"/>
+
+                    <!-- Создание Label с надписью "Ресторанный бизнес" -->
+                    <TextBlock Text="Компьютерный &#xA;           клуб"
+                               Foreground="{StaticResource color1}"
+                               FontSize="30"
+                               FontWeight="UltraBold"
+                               FontFamily="Montserrat"
+                               HorizontalAlignment="Center"/>
+
+                    <!--Создание TextBlock с надписью "Username" -->
+                    <TextBlock Text="Логин"
+                               Foreground="DarkGray"
+                               FontSize="12"
+                               FontWeight="Medium"
+                               FontFamily="Montserrat"                             
+                               Margin="0,25,0,0"/>
+
+                    <!--Создание TextBox для "Username" -->
+                    <TextBox x:Name="txtUser"
+                             FontSize="13"
+                             FontWeight="Medium"
+                             FontFamily="Montserrat"                            
+                             Foreground="#696969"
+                             CaretBrush="LightGray"
+                             BorderBrush="DarkGray"
+                             BorderThickness="0,0,0,2"
+                             Height="28"
+                             VerticalContentAlignment="Center"
+                             Margin="0,5,0,0"                       
+                             Padding="20,0,0,0">
+                        <!-- Внутренний отступ с лево-->
+
+
+                        <TextBox.Background>
+                            <!-- Инициализация иконки "Username" -->
+                            <ImageBrush ImageSource="/Images/user-icon.png"
+                                        Stretch="None"
+                                        AlignmentX="Left"/>
+                        </TextBox.Background>
+                    </TextBox>
+
+                    <!--Создание TextBlock с надписью "Password" -->
+                    <TextBlock Text="Пароль"
+                               Foreground="DarkGray"
+                               FontSize="12"
+                               FontWeight="Medium"
+                               FontFamily="Montserrat"                             
+                               Margin="0,15,0,0"/>
+
+                    <!--Создание TextBox для "Password" -->
+                    <PasswordBox x:Name="txtPass"
+                             FontSize="13"
+                             FontWeight="Medium"
+                             FontFamily="Montserrat"                            
+                             Foreground="#696969"
+                             CaretBrush="LightGray"
+                             BorderBrush="DarkGray"
+                             BorderThickness="0,0,0,2"
+                             Height="28"
+                             VerticalContentAlignment="Center"
+                             Margin="0,5,0,0"
+                             Padding="20,0,0,0">
+
+                        <PasswordBox.Background>
+                            <!-- Инициализация иконки "Password" -->
+                            <ImageBrush ImageSource="/Images/key-icon.png"
+                                        Stretch="None"
+                                        AlignmentX="Left"/>
+                        </PasswordBox.Background>
+                    </PasswordBox>
+
+                    <TextBlock x:Name="txtError"
+                               Text=""
+                               Foreground="Red"
+                               FontSize="12"
+                               FontWeight="Medium"
+                               FontFamily="Montserrat"  
+                               Padding="58,0,0,0"
+                               Margin="0,25,0,0"/>
+                    <!-- Создание кнопки "LogIn" -->
+                    <Button x:Name="btnLogin"                          
+                            BorderThickness="0"
+                            Content="Войти"
+                            Foreground="White"
+                            FontSize="13"
+                            FontFamily="Montserrat"
+                            Cursor="Hand"                           
+                            Margin="0,50,0,0"
+                            Click="btnLogin_Click">
+
+                        <Button.Style>
+                            <Style TargetType="{x:Type Button}">
+                                <Setter Property="Background" Value="#462AD8"/>
+                                <Style.Triggers>
+                                    <Trigger Property="IsMouseOver" Value="True">
+                                        <Setter Property="Background" Value="#28AEED"/>
+                                    </Trigger>
+                                </Style.Triggers>
+                            </Style>
+                        </Button.Style>
+
+                        <Button.Template>
+                            <ControlTemplate TargetType="{x:Type Button}">
+                                <Border Width="150" Height="40"
+                                        CornerRadius="20"
+                                        Background="{TemplateBinding Background}">
+                                    <ContentPresenter VerticalAlignment="Center"
+                                                      HorizontalAlignment="Center"/>
+                                </Border>
+                            </ControlTemplate>
+                        </Button.Template>
+                    </Button>
+                    <!-- Создание панели для дополнительного контента -->
+
+
+                </StackPanel>
+
+            </Grid>
+
+        </Border>
+
+    </Border>
+
+</Window>
+

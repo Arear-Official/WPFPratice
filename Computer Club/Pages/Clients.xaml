@@ -1,0 +1,322 @@
+﻿<Page x:Class="Computer_Club.Pages.Clients"
+      xmlns="http://schemas.microsoft.com/winfx/2006/xaml/presentation"
+      xmlns:x="http://schemas.microsoft.com/winfx/2006/xaml"
+      xmlns:mc="http://schemas.openxmlformats.org/markup-compatibility/2006" 
+      xmlns:d="http://schemas.microsoft.com/expression/blend/2008" 
+      xmlns:fa="http://schemas.awesome.incremented/wpf/xaml/fontawesome.sharp"
+      xmlns:local="clr-namespace:Computer_Club.Pages"
+      mc:Ignorable="d" 
+      d:DesignHeight="738" d:DesignWidth="943"
+      Title="Clients" Cursor="Hand">
+
+
+    <Grid>
+        <Grid.ColumnDefinitions>
+            <ColumnDefinition Width="743*"/>
+            <ColumnDefinition Width="200*"/>
+        </Grid.ColumnDefinitions>
+
+        <Image Source="/Images/Computer.png" Grid.ColumnSpan="2"/>
+        <Image HorizontalAlignment="Right" Height="290" VerticalAlignment="Bottom" Width="295" Source="/Images/Gamepad.png" Grid.ColumnSpan="2"/>
+        <Image Width="70" Height="70" HorizontalAlignment="Right" VerticalAlignment="Top" Margin="0,76,-35,0" Source="/Images/GameController.png" Grid.Column="1" MouseLeftButtonUp="Image_MouseLeftButtonUp">
+            <Image.Style>
+                <Style TargetType="Image">
+                    <Style.Triggers>
+                        <Trigger Property="IsMouseOver" Value="True">
+                            <Trigger.EnterActions>
+                                <BeginStoryboard>
+                                    <Storyboard>
+                                        <DoubleAnimation Storyboard.TargetProperty="(FrameworkElement.RenderTransform).(TranslateTransform.X)"
+                                                     From="0" To="-30" Duration="0:0:0.3" />
+                                    </Storyboard>
+                                </BeginStoryboard>
+                            </Trigger.EnterActions>
+                            <Trigger.ExitActions>
+                                <BeginStoryboard>
+                                    <Storyboard>
+                                        <DoubleAnimation Storyboard.TargetProperty="(FrameworkElement.RenderTransform).(TranslateTransform.X)"
+                                                     From="-30" To="0" Duration="0:0:0.3" />
+                                    </Storyboard>
+                                </BeginStoryboard>
+                            </Trigger.ExitActions>
+                        </Trigger>
+                    </Style.Triggers>
+
+                </Style>
+            </Image.Style>
+            <Image.RenderTransform>
+                <TranslateTransform X="0" Y="0"/>
+            </Image.RenderTransform>
+        </Image>
+        <Grid x:Name="grid" Margin="39,161,-35,444" Grid.Column="1" VerticalAlignment="Bottom" HorizontalAlignment="Right">
+            <Grid.RenderTransform>
+                <TranslateTransform X="0" Y="0" />
+            </Grid.RenderTransform>
+            <Image Width="70" Height="70" HorizontalAlignment="Right" VerticalAlignment="Top" Source="/Images/Loupe.png"
+           MouseEnter="Image_MouseEnter" MouseLeave="Image_MouseLeave" MouseLeftButtonUp="SearchClick" />
+            <ComboBox x:Name="SearchCombo" VerticalAlignment="Top" Height="22" Width="196" Margin="0,75,0,0" Visibility="Hidden" >
+                <ComboBoxItem Content="Инициалы"/>
+                <ComboBoxItem Content="Номер"/>
+            </ComboBox>
+            <TextBox x:Name="SeachText" VerticalAlignment="Top" Width="196" Margin="0,111,0,0" Height="22" Visibility="Hidden" TextChanged="SeachText_TextChanged" />
+        </Grid>
+
+        <DataGrid x:Name="Data" Loaded="Data_Loaded" RowHeight="40" GridLinesVisibility="None" Margin="197,111,187,260" MaxWidth="620" IsReadOnly="True" Grid.ColumnSpan="2" >
+            <DataGrid.BorderBrush>
+                <SolidColorBrush Color="Black" Opacity="0"/>
+            </DataGrid.BorderBrush>
+            <DataGrid.Background>
+                <SolidColorBrush Color="#FF830A93" Opacity="0"/>
+            </DataGrid.Background>
+            <DataGrid.ColumnHeaderStyle>
+                <Style TargetType="DataGridColumnHeader">
+                    <Setter Property="Template">
+                        <Setter.Value>
+                            <ControlTemplate TargetType="DataGridColumnHeader">
+                                <!--Header color and radius-->
+                                <Border Background="HotPink" 
+                                    CornerRadius="10">
+                                    <ContentPresenter VerticalAlignment="Center"
+                                              HorizontalAlignment="Left"/>
+                                </Border>
+                            </ControlTemplate>
+                        </Setter.Value>
+                    </Setter>
+                    <!--Setting for Header-->
+                    <Setter Property="Height" Value="40"/>
+                    <Setter Property="Foreground" Value="Black"/>
+                    <Setter Property="FontSize" Value="14"/>
+                    <Setter Property="FontWeight" Value="Bold"/>
+                    <Setter Property="Padding" Value="5"/>
+                </Style>
+            </DataGrid.ColumnHeaderStyle>
+            <DataGrid.CellStyle>
+                <Style TargetType="{x:Type DataGridCell}">
+                    <Setter Property="Background" Value="Transparent"/>
+                    <Setter Property="BorderThickness" Value="0"/>
+                </Style>
+            </DataGrid.CellStyle>
+            <DataGrid.RowStyle>
+                <Style TargetType="DataGridRow">
+                    <Style.Triggers>
+                        <Trigger Property="IsMouseOver" Value="True">
+                            <Setter Property="Background" Value="#623ED0"/>
+                            <Setter Property="Foreground" Value="#ffffff"/>
+                        </Trigger>
+                        <Trigger Property="IsSelected" Value="True">
+                            <Setter Property="Background" Value="#623ED0"/>
+                            <Setter Property="Foreground" Value="#ffffff"/>
+                        </Trigger>
+                        <MultiTrigger>
+                            <MultiTrigger.Conditions>
+                                <Condition Property="IsSelected" Value="true"/>
+                                <Condition Property="Selector.IsSelectionActive" Value="false"/>
+                            </MultiTrigger.Conditions>
+                            <Setter Property="Background" Value="#dfdfdf"/>
+                        </MultiTrigger>
+                    </Style.Triggers>
+                    <Setter Property="Template">
+                        <Setter.Value>
+                            <ControlTemplate TargetType="DataGridRow">
+                                <!--Row color and radius-->
+                                <Border x:Name="DGR_Border" Padding="0 8" CornerRadius="10" Background="{TemplateBinding Background}" BorderThickness="0" SnapsToDevicePixels="True">
+                                    <SelectiveScrollingGrid>
+                                        <SelectiveScrollingGrid.ColumnDefinitions>
+                                            <ColumnDefinition Width="Auto"/>
+                                            <ColumnDefinition Width="*"/>
+                                        </SelectiveScrollingGrid.ColumnDefinitions>
+                                        <SelectiveScrollingGrid.RowDefinitions>
+                                            <RowDefinition Height="*"/>
+                                            <RowDefinition Height="Auto"/>
+                                        </SelectiveScrollingGrid.RowDefinitions>
+
+                                        <DataGridCellsPresenter Grid.Column="1"
+                                                        ItemsPanel="{TemplateBinding ItemsPanel}"
+                                                        SnapsToDevicePixels="{TemplateBinding SnapsToDevicePixels}"/>
+                                        <DataGridDetailsPresenter Grid.Column="1"
+                                                            Grid.Row="1"
+                                                            Visibility="{TemplateBinding DetailsVisibility}"
+                                                            SelectiveScrollingGrid.SelectiveScrollingOrientation="{Binding AreRowDetailsFrozen, ConverterParameter={x:Static SelectiveScrollingOrientation.Vertical}, Converter={x:Static DataGrid.RowDetailsScrollingConverter}, RelativeSource={RelativeSource AncestorType={x:Type DataGrid}}}"
+                                                            />
+                                    </SelectiveScrollingGrid>
+                                </Border>
+                            </ControlTemplate>
+                        </Setter.Value>
+                    </Setter>
+                </Style>
+            </DataGrid.RowStyle>
+            <DataGrid.Columns>
+                <DataGridTextColumn Width="20"/>
+                <DataGridTextColumn Header="ID" Binding="{Binding Path=ID}" Width="40" />
+                <DataGridTextColumn  Header="Инициалы" Binding="{Binding Path=Iinitials}"  Width="*" TextBlock.TextAlignment="Center"/>
+                <DataGridTextColumn Header="Номер телефона" Binding="{Binding Path=phoneNumber}" Width="*" TextBlock.TextAlignment="Center"/>
+                <DataGridTextColumn Header="Email" Binding="{Binding Path=eMail}" Width="*" TextBlock.TextAlignment="Center"/>
+                <DataGridTemplateColumn Width="50">
+                    <DataGridTemplateColumn.CellTemplate>
+                        <DataTemplate>
+                            <StackPanel Orientation="Horizontal" Margin="0,0,0,19" >
+                                <Image Source="/Images/Viol.png" Width="20" Height="20" Margin="0,0,5,0" MouseLeftButtonUp="UpdateRow" MouseLeftButtonDown="Image_MouseLeftButtonDown"/>
+                                <Image Source="/Images/Red.png" Width="20" Height="20" MouseLeftButtonUp="DeleteRow" MouseLeftButtonDown="Image_MouseLeftButtonDown_1"/>
+                            </StackPanel>
+                        </DataTemplate>
+                    </DataGridTemplateColumn.CellTemplate>
+                    <DataGridTemplateColumn.CellEditingTemplateSelector>
+                        <DataTemplateSelector>
+                        </DataTemplateSelector>
+                    </DataGridTemplateColumn.CellEditingTemplateSelector>
+                </DataGridTemplateColumn>
+                <DataGridTextColumn Width="20" TextBlock.TextAlignment="Center"/>
+            </DataGrid.Columns>
+        </DataGrid>
+
+        <Grid Name="Adding" Margin="179,111,174,260" Grid.ColumnSpan="2" Visibility="Visible" MaxWidth="640">
+            <Grid.Style>
+                <Style TargetType="Grid">
+                    <Style.Triggers>
+                        <Trigger Property="Visibility" Value="Visible">
+                            <Trigger.EnterActions>
+                                <BeginStoryboard>
+                                    <Storyboard>
+                                        <DoubleAnimation Storyboard.TargetProperty="MaxWidth" From="0" To="640" Duration="0:0:0.25" />
+                                        <DoubleAnimation Storyboard.TargetProperty="MaxHeight" From="0" To="1000" Duration="0:0:0.5" />
+                                    </Storyboard>
+                                </BeginStoryboard>
+                            </Trigger.EnterActions>
+                        </Trigger>
+                    </Style.Triggers>
+                </Style>
+            </Grid.Style>
+            <Rectangle Stroke="Black" OpacityMask="Red" Margin="-2,0,0,0" RadiusX="20" RadiusY="20">
+                <Rectangle.Fill>
+                    <RadialGradientBrush>
+                        <GradientStop Color="#FF8303BA" Offset="0"/>
+                        <GradientStop Color="#FF5A03A1" Offset="1"/>
+                    </RadialGradientBrush>
+                </Rectangle.Fill>
+            </Rectangle>
+
+            <TextBox x:Name="txtUser"
+                             FontSize="13"
+                             FontWeight="Medium"
+                             FontFamily="Montserrat"                            
+                             Foreground="#696969"
+                             CaretBrush="LightGray"
+                             BorderBrush="DarkGray"
+                             BorderThickness="0,0,0,2"
+                             Height="28"
+                             VerticalContentAlignment="Center"
+                             Margin="0,124,0,0"                             
+                             Padding="20,0,0,0" HorizontalAlignment="Center" VerticalAlignment="Top" Width="188">
+                <!-- Внутренний отступ с лево-->
+
+
+                <TextBox.Background>
+                    <!-- Инициализация иконки "Username" -->
+                    <ImageBrush ImageSource="/Images/user-icon.png"
+                                        Stretch="None"
+                                        AlignmentX="Left"/>
+                </TextBox.Background>
+            </TextBox>
+            <TextBlock x:Name="Header" Text="Добавление клиента"
+                Padding="20,0,0,0"
+                Foreground="White"
+                FontSize="13"
+                FontFamily="Montserrat"
+                FontWeight="Medium"
+                VerticalAlignment="Top" Height="22" HorizontalAlignment="Center" Width="595" FontStretch="ExtraExpanded" Margin="0,10,0,0"/>
+
+            <!-- Создание кнопки сворачивания в первой колонке -->
+            <StackPanel Orientation="Horizontal" HorizontalAlignment="Right" VerticalAlignment="Top" >
+
+                <Button x:Name="btnClose"
+                    Style="{StaticResource controlButton}"
+                    Tag="{StaticResource color4}"
+                    Height="32" Width="32" Foreground="#FF0C15ED" VerticalAlignment="Top" HorizontalAlignment="Right" Click="btnClose_Click">
+                    <fa:IconImage Icon="Xmark" Style="{StaticResource controlButtonIcon}"/>
+                </Button>
+            </StackPanel>
+            <TextBox x:Name="txtNumber"
+                FontSize="13"
+                FontWeight="Medium"
+                FontFamily="Montserrat"                            
+                Foreground="#696969"
+                CaretBrush="LightGray"
+                BorderBrush="DarkGray"
+                BorderThickness="0,0,0,2"
+                Height="28"
+                VerticalContentAlignment="Center"                       
+                Padding="20,0,0,0" HorizontalAlignment="Center" VerticalAlignment="Center" Width="188">
+                <!-- Внутренний отступ с лево-->
+
+
+                <TextBox.Background>
+                    <!-- Инициализация иконки "Username" -->
+                    <ImageBrush ImageSource="../Images/Telephone.png"
+                        Stretch="None"
+                        AlignmentX="Left"/>
+                </TextBox.Background>
+            </TextBox>
+            <Button x:Name="btnLogin"                          
+                BorderThickness="0"
+                Content=""
+                Foreground="White"
+                FontSize="13"
+                FontFamily="Montserrat"
+                Cursor="Hand"                           
+                Margin="0,277,0,0"
+                Click="Adding_Click" VerticalAlignment="Top" Height="90" Background="#FF6200DC" BorderBrush="Black">
+
+                <Button.Style>
+                    <Style TargetType="{x:Type Button}">
+                        <Setter Property="Background" Value="#462AD8"/>
+                        <Setter Property="Cursor" Value="Hand"/>
+                        <Style.Triggers>
+                            <Trigger Property="IsMouseOver" Value="True">
+                                <Setter Property="Background" Value="#28AEED"/>
+                            </Trigger>
+                        </Style.Triggers>
+                    </Style>
+                </Button.Style>
+
+                <Button.Template>
+                    <ControlTemplate TargetType="{x:Type Button}">
+                        <Border Width="150" Height="40"
+                                        CornerRadius="20"
+                                        Background="{TemplateBinding Background}">
+                            <ContentPresenter VerticalAlignment="Center"
+                                                      HorizontalAlignment="Center"/>
+                        </Border>
+                    </ControlTemplate>
+                </Button.Template>
+            </Button>
+            <TextBlock x:Name="txtError"
+                               Text=""
+                               Foreground="Red"
+                               FontSize="12"
+                               FontWeight="Medium"
+                               FontFamily="Montserrat"  
+                               Margin="0,0,0,88" TextAlignment="Center" Height="13" Width="590" VerticalAlignment="Bottom"/>
+            <TextBox x:Name="txtEMail"
+                FontWeight="Medium"
+                FontFamily="Montserrat"                            
+                Foreground="#696969"
+                CaretBrush="LightGray"
+                BorderBrush="DarkGray"
+                BorderThickness="0,0,0,2"
+                Height="28"
+                VerticalContentAlignment="Center"
+                Margin="0,216,0,0"                       
+                Padding="20,0,0,0" HorizontalAlignment="Center" VerticalAlignment="Top" Width="188">
+                <!-- Внутренний отступ с лево-->
+
+
+                <TextBox.Background>
+                    <!-- Инициализация иконки "Username" -->
+                    <ImageBrush ImageSource="../Images/Mail.png"
+                        Stretch="None"
+                        AlignmentX="Left"/>
+                </TextBox.Background>
+            </TextBox>
+        </Grid>
+    </Grid>
+</Page>

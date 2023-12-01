@@ -1,0 +1,227 @@
+﻿<Page x:Class="Computer_Club.Pages.Controle_panel"
+      xmlns="http://schemas.microsoft.com/winfx/2006/xaml/presentation"
+      xmlns:x="http://schemas.microsoft.com/winfx/2006/xaml"
+      xmlns:mc="http://schemas.openxmlformats.org/markup-compatibility/2006" 
+      xmlns:d="http://schemas.microsoft.com/expression/blend/2008" 
+      xmlns:local="clr-namespace:Computer_Club.Pages"
+      mc:Ignorable="d" 
+      d:DesignHeight="738" d:DesignWidth="943"
+      Title="Controle_panel">
+
+    <Grid x:Name="grid" Margin="0,0,0,0">
+        <Grid.ColumnDefinitions>
+            <ColumnDefinition Width="214*"/>
+            <ColumnDefinition Width="533*"/>
+            <ColumnDefinition Width="67*"/>
+            <ColumnDefinition Width="129*"/>
+        </Grid.ColumnDefinitions>
+        <Grid.RowDefinitions>
+            <RowDefinition Height="11*"/>
+            <RowDefinition Height="59*"/>
+            <RowDefinition Height="475*"/>
+        </Grid.RowDefinitions>
+        <Image Source="../Images/Computer.png" Grid.ColumnSpan="4" Grid.RowSpan="3"/>
+        <!-- GridLinesVisibility="None" is important-->
+        <DataGrid x:Name="Data" Loaded="Data_Loaded" RowHeight="40" GridLinesVisibility="None" Margin="0,10,0,261" Grid.Row="2" MaxWidth="620" IsReadOnly="True" Grid.Column="1" >
+            <DataGrid.BorderBrush>
+                <SolidColorBrush Color="Black" Opacity="0"/>
+            </DataGrid.BorderBrush>
+            <DataGrid.Background>
+                <SolidColorBrush Color="#FF830A93" Opacity="0"/>
+            </DataGrid.Background>
+            <DataGrid.ColumnHeaderStyle>
+                <Style TargetType="DataGridColumnHeader">
+                    <Setter Property="Template">
+                        <Setter.Value>
+                            <ControlTemplate TargetType="DataGridColumnHeader">
+                                <!--Header color and radius-->
+                                <Border Background="HotPink" 
+                                    CornerRadius="10">
+                                    <ContentPresenter VerticalAlignment="Center"
+                                              HorizontalAlignment="Left"/>
+                                </Border>
+                            </ControlTemplate>
+                        </Setter.Value>
+                    </Setter>
+                    <!--Setting for Header-->
+                    <Setter Property="Height" Value="40"/>
+                    <Setter Property="Foreground" Value="Black"/>
+                    <Setter Property="FontSize" Value="14"/>
+                    <Setter Property="FontWeight" Value="Bold"/>
+                    <Setter Property="Padding" Value="5"/>
+                </Style>
+            </DataGrid.ColumnHeaderStyle>
+            <DataGrid.CellStyle>
+                <Style TargetType="{x:Type DataGridCell}">
+                    <Setter Property="Background" Value="Transparent"/>
+                    <Setter Property="BorderThickness" Value="0"/>
+                </Style>
+            </DataGrid.CellStyle>
+            <DataGrid.RowStyle>
+                <Style TargetType="DataGridRow">
+                    <Style.Triggers>
+                        <Trigger Property="IsMouseOver" Value="True">
+                            <Setter Property="Background" Value="#623ED0"/>
+                            <Setter Property="Foreground" Value="#ffffff"/>
+                        </Trigger>
+                        <Trigger Property="IsSelected" Value="True">
+                            <Setter Property="Background" Value="#623ED0"/>
+                            <Setter Property="Foreground" Value="#ffffff"/>
+                        </Trigger>
+                        <MultiTrigger>
+                            <MultiTrigger.Conditions>
+                                <Condition Property="IsSelected" Value="true"/>
+                                <Condition Property="Selector.IsSelectionActive" Value="false"/>
+                            </MultiTrigger.Conditions>
+                            <Setter Property="Background" Value="#dfdfdf"/>
+                        </MultiTrigger>
+                    </Style.Triggers>
+                    <Setter Property="Template">
+                        <Setter.Value>
+                            <ControlTemplate TargetType="DataGridRow">
+                                <!--Row color and radius-->
+                                <Border x:Name="DGR_Border" Padding="0 8" CornerRadius="10" Background="{TemplateBinding Background}" BorderThickness="0" SnapsToDevicePixels="True">
+                                    <SelectiveScrollingGrid>
+                                        <SelectiveScrollingGrid.ColumnDefinitions>
+                                            <ColumnDefinition Width="Auto"/>
+                                            <ColumnDefinition Width="*"/>
+                                        </SelectiveScrollingGrid.ColumnDefinitions>
+                                        <SelectiveScrollingGrid.RowDefinitions>
+                                            <RowDefinition Height="*"/>
+                                            <RowDefinition Height="Auto"/>
+                                        </SelectiveScrollingGrid.RowDefinitions>
+
+                                        <DataGridCellsPresenter Grid.Column="1"
+                                                        ItemsPanel="{TemplateBinding ItemsPanel}"
+                                                        SnapsToDevicePixels="{TemplateBinding SnapsToDevicePixels}"/>
+                                        <DataGridDetailsPresenter Grid.Column="1"
+                                                            Grid.Row="1"
+                                                            Visibility="{TemplateBinding DetailsVisibility}"
+                                                            SelectiveScrollingGrid.SelectiveScrollingOrientation="{Binding AreRowDetailsFrozen, ConverterParameter={x:Static SelectiveScrollingOrientation.Vertical}, Converter={x:Static DataGrid.RowDetailsScrollingConverter}, RelativeSource={RelativeSource AncestorType={x:Type DataGrid}}}"
+                                                            />
+                                    </SelectiveScrollingGrid>
+                                </Border>
+                            </ControlTemplate>
+                        </Setter.Value>
+                    </Setter>
+                </Style>
+            </DataGrid.RowStyle>
+            <DataGrid.Columns>
+                <DataGridTextColumn/>
+                <DataGridTemplateColumn Header="   #" Width="45">
+                    <DataGridTemplateColumn.CellTemplate>
+                        <DataTemplate>
+                            <Image Source="{Binding Path=imagePath}" Height="40" Width="40"/>
+                        </DataTemplate>
+                    </DataGridTemplateColumn.CellTemplate>
+                    <DataGridTemplateColumn.CellEditingTemplate>
+                        <DataTemplate>
+                            <Image Source="{Binding Path=imagePath}" Height="40" Width="40"/>
+                        </DataTemplate>
+                    </DataGridTemplateColumn.CellEditingTemplate>
+                </DataGridTemplateColumn>
+                <DataGridTextColumn Header="ID" Binding="{Binding Path=ID}" Width="40"/>
+                <DataGridTextColumn  Header="Тип компьютера" Binding="{Binding computerType}"  Width="*"/>
+                <DataGridTextColumn Header="Имя" Binding="{Binding Path=computerName}" Width="*"/>
+                <DataGridTextColumn Header="Сервис" Binding="{Binding Path=serviceName}" Width="*"/>
+                <DataGridTextColumn/>
+            </DataGrid.Columns>
+        </DataGrid>
+        <Grid x:Name="Keyboard" Grid.Row="2" Grid.ColumnSpan="4" Margin="0,399,0,0">
+
+            <Image Source="../Images/Keyboard.png" Margin="2,77,-2,-1"></Image>
+            <ComboBox x:Name="SearchBox" Margin="242,148,471,61" SelectionChanged="SearchBox_SelectionChanged" Width="230" MinWidth="200" Height="35" MinHeight="35">
+                <ComboBoxItem Content="Тип компьютера"/>
+                <ComboBoxItem Content="Имя"/>
+                <ComboBoxItem Content="Сервис"/>
+            </ComboBox>
+            <TextBox x:Name="SearchText" Margin="483,148,230,61" TextChanged="SearchText_TextChanged" MinWidth="200" Height="35" MinHeight="35" Width="200"></TextBox>
+        </Grid>
+        <Button x:Name="Refresh" Content="" HorizontalAlignment="Center" VerticalAlignment="Center" Width="37" Height="36" Click="Button_Click_1" HorizontalContentAlignment="Right" VerticalContentAlignment="Bottom" Foreground="White" Grid.Column="1" Grid.Row="2" Grid.ColumnSpan="2" Margin="450,270,0,0">
+            <Button.OpacityMask>
+                <ImageBrush ImageSource="/Images/RefreshHover.png"/>
+            </Button.OpacityMask>
+            <Button.Style>
+                <Style TargetType="{x:Type Button}">
+                    <Setter Property="Template">
+                        <Setter.Value>
+                            <ControlTemplate TargetType="{x:Type Button}">
+                                <Border Background="{TemplateBinding Background}" CornerRadius="4">
+                                    <Border.OpacityMask>
+                                        <ImageBrush ImageSource="/Images/RefreshHover.png"/>
+                                    </Border.OpacityMask>
+                                    <ContentPresenter HorizontalAlignment="Center" VerticalAlignment="Center" />
+                                </Border>
+                            </ControlTemplate>
+                        </Setter.Value>
+                    </Setter>
+                    <Style.Triggers>
+                        <Trigger Property="IsMouseOver" Value="True">
+                            <Setter Property="Template">
+                                <Setter.Value>
+                                    <ControlTemplate TargetType="{x:Type Button}">
+                                        <Border Background="{TemplateBinding OpacityMask}" CornerRadius="4">
+                                            <Border.OpacityMask>
+                                                <ImageBrush ImageSource="/Images/RefreshHover.png"/>
+                                            </Border.OpacityMask>
+                                            <ContentPresenter HorizontalAlignment="Center" VerticalAlignment="Center" />
+                                        </Border>
+                                    </ControlTemplate>
+                                </Setter.Value>
+                            </Setter>
+                        </Trigger>
+                    </Style.Triggers>
+                </Style>
+            </Button.Style>
+            <Button.BorderBrush>
+                <SolidColorBrush Color="#FF707070" Opacity="0"/>
+            </Button.BorderBrush>
+            <Button.Background>
+                <ImageBrush ImageSource="/Images/refresh.png" TileMode="Tile" />
+            </Button.Background>
+        </Button>
+        <Button  x:Name="Search" Content="" HorizontalAlignment="Center" VerticalAlignment="Center" Width="36" Height="36" Click="Button_Click_2" HorizontalContentAlignment="Right" VerticalContentAlignment="Bottom" Focusable="False" Foreground="Red" Grid.Column="1" Grid.ColumnSpan="2" Grid.Row="2" Margin="553,270,0,0">
+            <Button.Style>
+                <Style TargetType="{x:Type Button}">
+                    <Setter Property="Template">
+                        <Setter.Value>
+                            <ControlTemplate TargetType="{x:Type Button}">
+                                <Border Background="{TemplateBinding Background}" CornerRadius="4">
+                                    <Border.OpacityMask>
+                                        <ImageBrush ImageSource="/Images/RefreshHover.png"/>
+                                    </Border.OpacityMask>
+                                    <ContentPresenter HorizontalAlignment="Center" VerticalAlignment="Center" />
+                                </Border>
+                            </ControlTemplate>
+                        </Setter.Value>
+                    </Setter>
+                    <Style.Triggers>
+                        <Trigger Property="IsMouseOver" Value="True">
+                            <Setter Property="Template">
+                                <Setter.Value>
+                                    <ControlTemplate TargetType="{x:Type Button}">
+                                        <Border Background="{TemplateBinding OpacityMask}" CornerRadius="4">
+                                            <Border.OpacityMask>
+                                                <ImageBrush ImageSource="/Images/RefreshHover.png"/>
+                                            </Border.OpacityMask>
+                                            <ContentPresenter HorizontalAlignment="Center" VerticalAlignment="Center" />
+                                        </Border>
+                                    </ControlTemplate>
+                                </Setter.Value>
+                            </Setter>
+                        </Trigger>
+                    </Style.Triggers>
+                </Style>
+            </Button.Style>
+            <Button.OpacityMask>
+                <ImageBrush ImageSource="/Images/LoupeHover.png"/>
+            </Button.OpacityMask>
+            <Button.BorderBrush>
+                <SolidColorBrush Color="#FF707070" Opacity="0"/>
+            </Button.BorderBrush>
+            <Button.Background>
+                <ImageBrush ImageSource="/Images/Loupe.png"/>
+            </Button.Background>
+        </Button>
+    </Grid>
+</Page>
