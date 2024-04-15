@@ -135,7 +135,7 @@ namespace Computer_Club.Pages
             {
                 ImageChange(sender, "/Images/SliderOff.png");
 
-                Configuration config = ConfigurationManager.OpenExeConfiguration(ConfigurationUserLevel.None);
+                Configuration config = ConfigurationManager.OpenExeConfiguration(ConfigurationUserLevel.PerUserRoamingAndLocal);
                 config.AppSettings.Settings["Admin"].Value = "true";
                 config.Save(ConfigurationSaveMode.Modified);
                 ConfigurationManager.RefreshSection("appSettings");

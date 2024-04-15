@@ -86,42 +86,35 @@ namespace Computer_Club.View
             else this.WindowState = WindowState.Normal;
         }
 
-        private void RadioButton_Click(object sender, RoutedEventArgs e)
-        {
-            content.Content = controle_panel;
-            panelBlock.Text = "Панель управления";
-            panelIcon.Icon = IconChar.Home;
-        }
-
-        private void RadioButton_Click_1(object sender, RoutedEventArgs e)
-        {
-            content.Content = settings;
-            panelBlock.Text = "Настройки";
-            panelIcon.Icon = IconChar.Tools;
-        }
-
         private void Window_Loaded(object sender, RoutedEventArgs e)
         {
             content.Content = controle_panel;            
         }
 
+        private void RadioButton_Click_1(object sender, RoutedEventArgs e)
+        {
+            content.Navigate(settings);
+            panelBlock.Text = "Настройки";
+            panelIcon.Icon = IconChar.Tools;
+        }
+
         private void RadioButton_Click_2(object sender, RoutedEventArgs e)
         {
-            content.Content = clients;
+            content.Navigate(clients);
             panelBlock.Text = "Клиенты";
             panelIcon.Icon = IconChar.UserGroup;
         }
 
         private void RadioButton_Click_3(object sender, RoutedEventArgs e)
         {
-            content.Content = service;
+            content.Navigate(service);
             panelBlock.Text = "Услуги";
             panelIcon.Icon = IconChar.HandHolding;
         }
 
         private void RadioButton_Click_4(object sender, RoutedEventArgs e)
         {
-            content.Content = storage;
+            content.Navigate(storage);
             panelBlock.Text = "Комплектующие";
             panelIcon.Icon = IconChar.Boxes;
         }

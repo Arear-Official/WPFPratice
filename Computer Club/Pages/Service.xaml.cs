@@ -210,6 +210,7 @@ namespace Computer_Club.Pages
             if (sender is Image image)
             {
                 image.Source = new System.Windows.Media.Imaging.BitmapImage(new System.Uri(path, System.UriKind.Relative));
+                new System.Windows.Media.Imaging.BitmapImage();
             }
         }
 
